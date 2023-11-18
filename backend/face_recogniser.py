@@ -3,25 +3,26 @@ import numpy as np
 import keras
 video = cv2.VideoCapture(0)
 
-EMOTIONS = (
-    'angry',
-    'disgust',
-    'fear',
-    'happy',
-    'sad',
-    'surprise',
-    'neutral'
-)
+# EMOTIONS = (
+#     'angry',
+#     'disgust',
+#     'fear',
+#     'happy',
+#     'sad',
+#     'surprise',
+#     'neutral'
+# )
+EMOTIONS = ('Angry','Happy','Neutral','Sad','Surprise')
 
 face_haar_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades +
     'haarcascade_frontalface_default.xml'
 )
 
-model = keras.models.load_model("face_model.h5")
+model = keras.models.load_model("EmotionDetectionModel.h5")
 
 def get_emotion(face) -> str:
-    face = cv2.resize(face, (224,224))
+    face = cv2.resize(face, (48,48), interpolation=cv2.INTER_AREA)
     pixels = keras.preprocessing.image.img_to_array(face)
     pixels = np.expand_dims(pixels, axis=0)/255
     prediction = model.predict(pixels)
