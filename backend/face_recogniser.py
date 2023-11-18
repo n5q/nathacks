@@ -1,18 +1,46 @@
 import cv2
-import sys
+import numpy as np
+import keras
 video = cv2.VideoCapture(0)
+
+EMOTIONS = (
+    'angry',
+    'disgust',
+    'fear',
+    'happy',
+    'sad',
+    'surprise',
+    'neutral'
+)
 
 face_haar_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades +
     'haarcascade_frontalface_default.xml'
 )
 
-def process(frame):
-    converted = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    face = face_haar_cascade.detectMultiScale(converted, 1.32, 5)
-    for (x,y,w,h) in face:
-        cv2.rectangle(frame, (x,y), (x+w, y+h), (0,0xFF,0), thickness=2)
+model = keras.models.load_model("face_model.h5")
 
+def get_emotion(face) -> str:
+    face = cv2.resize(face, (224,224))
+    pixels = keras.preprocessing.image.img_to_array(face)
+    pixels = np.expand_dims(pixels, axis=0)/255
+    prediction = model.predict(face)
+    i = np.argmax(face)
+    emotion = emotions[i]
+    return emotion
+    
+
+def process(frame) -> np.ndarray:
+    converted = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    faces = face_haar_cascade.detectMultiScale(converted, 1.32, 5)
+    for (x,y,w,h) in faces:
+        cv2.rectangle(frame, (x,y), (x+w, y+h), (0,0xFF,0), thickness=2)
+        face = converted[y:y+w, x:x+h]
+        emotion = get_emotion(face)
+        cv2.putText(frame, emotion, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0xFF, 0), 2)
+    return faces
+        
+        
 if __name__ == "__main__":
     while (1):
         ret, frame = video.read()
