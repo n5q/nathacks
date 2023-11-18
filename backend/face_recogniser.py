@@ -26,7 +26,7 @@ def get_emotion(face) -> str:
     pixels = np.expand_dims(pixels, axis=0)/255
     prediction = model.predict(pixels)
     i = np.argmax(prediction[0])
-    emotion = emotions[i]
+    emotion = EMOTIONS[i]
     return emotion
     
 
