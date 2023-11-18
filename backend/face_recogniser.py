@@ -11,7 +11,7 @@ def process(frame):
     converted = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     face = face_haar_cascade.detectMultiScale(converted, 1.32, 5)
     for (x,y,w,h) in face:
-        cv2.rectangle(frame, (x,y), (x+w, y+h), (0,0xFF,0), thickness=5)
+        cv2.rectangle(frame, (x,y), (x+w, y+h), (0,0xFF,0), thickness=2)
 
 if __name__ == "__main__":
     while (1):
