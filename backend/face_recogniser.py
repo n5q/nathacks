@@ -25,7 +25,7 @@ def get_emotion(face) -> str:
     pixels = keras.preprocessing.image.img_to_array(face)
     pixels = np.expand_dims(pixels, axis=0)/255
     prediction = model.predict(face)
-    i = np.argmax(face)
+    i = np.argmax(prediction[0])
     emotion = emotions[i]
     return emotion
     
