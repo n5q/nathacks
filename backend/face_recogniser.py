@@ -3,16 +3,13 @@ import numpy as np
 import keras
 video = cv2.VideoCapture(0)
 
-# EMOTIONS = (
-#     'angry',
-#     'disgust',
-#     'fear',
-#     'happy',
-#     'sad',
-#     'surprise',
-#     'neutral'
-# )
-EMOTIONS = ('Angry','Happy','Neutral','Sad','Surprise')
+EMOTIONS = (
+    "ANGRY",
+    "HAPPY",
+    "NORMAL",
+    "SAD",
+    "SUPRISED"
+)
 
 face_haar_cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades +
