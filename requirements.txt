@@ -1,0 +1,5 @@
+django
+numpy
+matplotlib
+keras
+opencv-python
