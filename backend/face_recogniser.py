@@ -32,8 +32,8 @@ def get_emotion(face) -> str:
     
 
 def process(frame) -> np.ndarray:
-    converted = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    faces = face_haar_cascade.detectMultiScale(converted, 1.32, 5)
+    converted = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = face_haar_cascade.detectMultiScale(converted, 1.3, 5)
     for (x,y,w,h) in faces:
         cv2.rectangle(frame, (x,y), (x+w, y+h), (0,0xFF,0), thickness=2)
         face = converted[y:y+w, x:x+h]
